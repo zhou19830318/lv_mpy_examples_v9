@@ -6,14 +6,15 @@
 
 ## 🚀 快速开始
 
-### 1. 硬件配置 (GC9A01)
+### 1. 硬件配置 (GC9A01 & CST816S)
 项目核心驱动位于 `display_driver.py`。默认配置如下：
 - **屏幕型号**: GC9A01 (240x240 圆形屏)
-- **通信接口**: SPI (主机 ID: 2, 频率: 80MHz)
+- **显示接口**: SPI (主机 ID: 2, 频率: 80MHz)
+- **触摸芯片**: CST816S (I2C 接口)
 - **引脚定义**:
-  - SCK: Pin 7, MOSI: Pin 6
-  - DC: Pin 4, CS: Pin 3, RST: Pin 5
-  - 背光 (Backlight): Pin 2 (低电平点亮)
+  - **显示屏 (SPI)**: SCK: Pin 7, MOSI: Pin 6, DC: Pin 4, CS: Pin 3, RST: Pin 5
+  - **触摸屏 (I2C)**: SCL: Pin 8, SDA: Pin 9, RST: Pin 11
+  - **背光 (Backlight)**: Pin 2 (低电平点亮)
 
 ### 2. 环境依赖
 - 已烧录集成 LVGL v9 的 MicroPython 固件。
@@ -73,19 +74,16 @@
 ```python
 import lvgl as lv
 import time
-from display_driver import init_display
+from display_driver import init_display, init_touch
 import task_handler
-import machine
-from machine import Pin
-import gc9a01
-from cst816s import CST816S, GESTURE_SWIPE_LEFT, GESTURE_SWIPE_RIGHT
 
 # 1. 初始化 LVGL 核心库
 lv.init()
 
-# 2. 初始化 GC9A01 显示屏驱动
-# display_driver.py 内部已处理 SPI 和引脚配置
+# 2. 初始化显示屏和触摸屏驱动
+# display_driver.py 内部已处理 SPI/I2C 和引脚配置
 display = init_display()
+touch = init_touch()
 
 # 3. 屏幕参数微调 (针对圆形屏)
 display.set_power(True)
@@ -93,9 +91,6 @@ display.init()
 display.set_color_inversion(True)      # GC9A01 通常需要颜色反转
 display.set_rotation(lv.DISPLAY_ROTATION._180) # 根据安装方向旋转
 display.set_backlight(100)             # 设置亮度
-i2c = machine.I2C(0, scl=machine.Pin(8), sda=machine.Pin(9), freq=400000)
-touch = CST816S(i2c, reset_pin=machine.Pin(11, machine.Pin.OUT))
-touch.auto_sleep = False
 
 # 4. 创建 UI 内容
 scr = lv.screen_active()
@@ -125,8 +120,8 @@ def btn_event_cb(e):
 
 btn.add_event_cb(btn_event_cb, lv.EVENT.CLICKED, None)
 
-# 5. 主循环 (保持 UI 刷新)
-th = task_handler.TaskHandler() # 处理定时器、输入、显示刷新
+# 5. 保持 UI 刷新
+th = task_handler.TaskHandler()
 ```
 
 ---
