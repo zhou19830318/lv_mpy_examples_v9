@@ -63,10 +63,7 @@
 
 1. 确保您的 MicroPython 固件已集成 LVGL v9。
 2. 将 `display_driver.py` 和所需的示例文件上传到开发板。
-3. 运行示例脚本，例如：
-   ```python
-   import get_started.lv_example_get_started_1
-   ```
+3. 运行示例代码
 
 ## 基于 GC9A01 的简单示例
 
