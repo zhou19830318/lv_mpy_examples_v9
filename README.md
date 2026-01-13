@@ -74,6 +74,11 @@
 import lvgl as lv
 import time
 from display_driver import init_display
+import task_handler
+import machine
+from machine import Pin
+import gc9a01
+from cst816s import CST816S, GESTURE_SWIPE_LEFT, GESTURE_SWIPE_RIGHT
 
 # 1. 初始化 LVGL 核心库
 lv.init()
@@ -88,6 +93,9 @@ display.init()
 display.set_color_inversion(True)      # GC9A01 通常需要颜色反转
 display.set_rotation(lv.DISPLAY_ROTATION._180) # 根据安装方向旋转
 display.set_backlight(100)             # 设置亮度
+i2c = machine.I2C(0, scl=machine.Pin(8), sda=machine.Pin(9), freq=400000)
+touch = CST816S(i2c, reset_pin=machine.Pin(11, machine.Pin.OUT))
+touch.auto_sleep = False
 
 # 4. 创建 UI 内容
 scr = lv.screen_active()
@@ -96,7 +104,7 @@ scr = lv.screen_active()
 label = lv.label(scr)
 label.set_text("LVGL v9\nGC9A01")
 label.set_style_text_align(lv.TEXT_ALIGN.CENTER, 0)
-label.set_style_text_font(lv.font_montserrat_20, 0) # 使用内置 20 号字体
+label.set_style_text_font(lv.font_montserrat_16, 0) # 使用内置 16 号字体
 label.set_style_text_color(lv.palette_main(lv.PALETTE.BLUE), 0)
 label.align(lv.ALIGN.CENTER, 0, -30)
 
@@ -118,9 +126,7 @@ def btn_event_cb(e):
 btn.add_event_cb(btn_event_cb, lv.EVENT.CLICKED, None)
 
 # 5. 主循环 (保持 UI 刷新)
-while True:
-    lv.timer_handler() # 处理定时器、输入、显示刷新
-    time.sleep_ms(5)
+th = task_handler.TaskHandler() # 处理定时器、输入、显示刷新
 ```
 
 ---
