@@ -83,17 +83,21 @@ lv.init()
 # 2. 初始化 GC9A01 显示屏
 # 注意：确保 display_driver.py 中的引脚配置与您的硬件一致
 display = init_display()
-
+display.set_power(False)
+display.init()
+display.set_color_inversion(True)
+display.set_rotation(lv.DISPLAY_ROTATION._180)
+display.set_backlight(100)
 # 3. 创建并显示内容
 scr = lv.screen_active()
 label = lv.label(scr)
 label.set_text("Hello GC9A01!")
 # 使用内置字体
-label.set_style_text_font(lv.font_montserrat_20, 0)
+label.set_style_text_font(lv.font_montserrat_16, 0)
 label.center()
 
-# 4. 刷新循环（在 MicroPython REPL 中通常不需要，但在脚本中需要）
-# while True:
-#     lv.timer_handler() # v9 中使用 timer_handler
-#     time.sleep_ms(5)
+while True:
+    lv.timer_handler() # v9 中使用 timer_handler
+    time.sleep_ms(5)
+
 ```
