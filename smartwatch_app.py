@@ -7,7 +7,7 @@ import urequests
 import json
 import ntptime
 import fs_driver
-from machine import RTC, Pin
+from machine import RTC, Pin, PWM
 from display_driver import init_display, init_touch
 from cst816s import GESTURE_SWIPE_LEFT, GESTURE_SWIPE_RIGHT, GESTURE_SWIPE_UP, GESTURE_SWIPE_DOWN
 
@@ -45,12 +45,29 @@ lv.init()
 display = init_display()
 touch = init_touch()
 
+# 手动初始化背光 PWM (Pin 2)
+# 注意：由于在 display_driver.py 中移除了背光控制，这里我们可以安全地使用 PWM
+bl_pwm = PWM(Pin(2), freq=1000)
+
+def set_screen_brightness(value):
+    # value 范围 0-100
+    # 修正：根据用户反馈，亮度反了，说明硬件可能是高电平点亮 (STATE_HIGH)
+    # 或者 PWM 逻辑与预期相反。
+    # 100% 亮度 -> duty = 1023
+    # 0% 亮度 -> duty = 0
+    duty = int(value * 10.23)
+    if duty > 1023: duty = 1023
+    if duty < 0: duty = 0
+    bl_pwm.duty(duty)
+    print(f"Manual PWM duty set to {duty} for brightness {value}")
+
 # 屏幕基本设置
 display.set_power(True)
 display.init()
 display.set_color_inversion(True)
 display.set_rotation(lv.DISPLAY_ROTATION._180)
-display.set_backlight(100)
+# 初始亮度 100%
+set_screen_brightness(100)
 
 # 注册文件系统以便加载字体 (参考 watch_th.py)
 try:
@@ -81,6 +98,7 @@ screens = []
 current_screen_idx = 0
 last_swipe_time = 0
 swipe_cooldown = 800 # 增加冷却时间到 800ms，防止连跳
+current_brightness = 100
 
 # ===== 网络功能 (参考 watch_th.py) =====
 def connect_wifi():
@@ -222,7 +240,7 @@ screen_settings.set_style_bg_color(lv.color_hex(0x000000), 0)
 label_set_title = lv.label(screen_settings)
 label_set_title.set_text("系统设置")
 label_set_title.set_style_text_font(font_cn, 0)
-label_set_title.align(lv.ALIGN.TOP_MID, 0, 30)
+label_set_title.align(lv.ALIGN.TOP_MID, 0, 20)
 
 # 城市选择下拉框
 dd_city = lv.dropdown(screen_settings)
@@ -249,7 +267,27 @@ dd_list = dd_city.get_list()
 if dd_list:
     dd_list.set_style_text_font(font_cn, 0)
 dd_city.set_width(150)
-dd_city.align(lv.ALIGN.CENTER, 0, -10)
+dd_city.align(lv.ALIGN.CENTER, 0, -45)
+
+# 亮度调节
+label_brightness = lv.label(screen_settings)
+label_brightness.set_text("屏幕亮度")
+label_brightness.set_style_text_font(font_cn, 0)
+label_brightness.align(lv.ALIGN.CENTER, 0, 0)
+
+slider_brightness = lv.slider(screen_settings)
+slider_brightness.set_range(10, 100)
+slider_brightness.set_value(current_brightness, False)
+slider_brightness.set_width(160)
+slider_brightness.align(lv.ALIGN.CENTER, 0, 30)
+
+def slider_event_cb(e):
+    global current_brightness
+    current_brightness = slider_brightness.get_value()
+    print(f"Setting brightness to: {current_brightness}")
+    set_screen_brightness(current_brightness)
+
+slider_brightness.add_event_cb(slider_event_cb, lv.EVENT.VALUE_CHANGED, None)
 
 # 初始化下拉框选中项
 for i, city in enumerate(CHINESE_CITIES):
@@ -260,7 +298,7 @@ for i, city in enumerate(CHINESE_CITIES):
 # 确定按钮
 btn_save = lv.button(screen_settings)
 btn_save.set_size(100, 40)
-btn_save.align(lv.ALIGN.CENTER, 0, 60)
+btn_save.align(lv.ALIGN.CENTER, 0, 75)
 btn_save_label = lv.label(btn_save)
 btn_save_label.set_text("保存")
 btn_save_label.set_style_text_font(font_cn, 0)
