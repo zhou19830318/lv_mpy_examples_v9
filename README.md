@@ -25,45 +25,90 @@
 ## 📂 目录结构与详细案例说明
 
 ### 🏁 入门指南 ([get_started/](file:///c:/Users/Administrator/Downloads/lv_mpy_examples_v9/get_started))
-- **基础按钮**: `lv_example_get_started_1.py` - 学习如何创建按钮并绑定点击事件。
-- **对象样式**: `lv_example_get_started_2.py` - 演示如何通过代码动态修改对象外观。
-- **交互控制**: `lv_example_get_started_3.py` - 滑动条与文本标签的联动示例。
+- **基础按钮**: `lv_example_get_started_1.py` - 学习如何创建按钮、设置大小及绑定点击事件回调。
+- **对象样式**: `lv_example_get_started_2.py` - 演示如何通过代码动态修改对象的背景色、圆角和阴影等外观属性。
+- **交互控制**: `lv_example_get_started_3.py` - 实现滑动条（Slider）与文本标签（Label）的实时数值联动，展示基本的交互逻辑。
 
 ### 🧩 核心组件 ([widgets/](file:///c:/Users/Administrator/Downloads/lv_mpy_examples_v9/widgets))
-这是本项目最庞大的部分，展示了 LVGL 丰富的 UI 控件：
-| 类别 | 描述 | 关键示例 |
-| :--- | :--- | :--- |
-| **基础显示** | 标签、图像、线条、LED | `label_1`, `img_1`, `line_1`, `led_1` |
-| **数值输入** | 滑动条、弧形、滚轮、数字输入框 | `slider_1`, `arc_1`, `roller_1`, `spinbox_1` |
-| **进度/状态** | 进度条、仪表盘、等待动画、开关 | `bar_1`, `meter_1`, `spinner_1`, `switch_1` |
-| **复杂交互** | 日历、列表、表格、按钮矩阵、下拉菜单 | `calendar_1`, `list_1`, `table_1`, `btnmatrix_1` |
-| **高级容器** | 画布、选项卡、窗口、平铺视图 | `canvas_1`, `tabview_1`, `win_1`, `tileview_1` |
-| **特殊功能** | 文本域、键盘、消息框、颜色选择器 | `textarea_1`, `keyboard_1`, `msgbox_1`, `colorwheel_1` |
+展示了 LVGL 丰富的 UI 控件及其高级用法：
+- **基础显示**: 
+  - `label`: 展示各种文本对齐、长文本滚动及着色模式。
+  - `img`: 演示图像缩放、旋转及从不同源（如文件、SRAM）加载图片。
+  - `line`, `led`: 基础绘图与状态指示。
+- **数值输入**: 
+  - `slider`, `arc`: 弧形与直线滑动条，支持范围限制和值改变事件。
+  - `roller`, `spinbox`: 滚轮选择器和数字微调框，适用于受限的数值输入。
+- **进度/状态**: 
+  - `bar`, `meter`: 进度条和多功能仪表盘，支持刻度自定义和动态指针。
+  - `spinner`: 用于等待加载的圆环旋转动画。
+  - `switch`: 经典的开关控件，支持自定义开关状态下的颜色。
+- **复杂交互**: 
+  - `calendar`: 全功能日历插件，支持日期高亮和下拉月份选择。
+  - `list`, `table`: 列表项点击响应和多行多列的数据展示。
+  - `btnmatrix`: 按钮矩阵，高效管理多个相关联的按钮。
+  - `dropdown`: 带有弹出列表的下拉选择框，支持自定义箭头图标。
+- **高级容器**: 
+  - `tabview`, `tileview`: 标签页导航和平铺视图，支持流畅的滑动切换效果。
+  - `win`, `msgbox`: 标准窗口布局和模态对话框，用于提示重要信息。
 
 ### 📐 布局管理 ([layouts/](file:///c:/Users/Administrator/Downloads/lv_mpy_examples_v9/layouts))
-- **Flex (弹性布局)**: 类似 CSS Flexbox。
-  - `flex_1` 到 `flex_6` 展示了行列排列、换行、对齐、生长因子 (Grow) 及从右向左 (RTL) 支持。
-- **Grid (网格布局)**: 类似 CSS Grid。
-  - `grid_1` 到 `grid_6` 展示了单元格跨度、对齐方式、拉伸效果及动态位置调整。
+- **Flex (弹性布局)**: 模仿 CSS Flexbox，提供强大的自适应排列能力。
+  - 展示了如何实现自动换行、权重生长（Grow）、水平垂直对齐等。
+- **Grid (网格布局)**: 模仿 CSS Grid，适用于精确的单元格定位。
+  - 展示了如何跨行跨列布局、网格内对齐以及响应式调整列宽。
 
 ### ✨ 动画效果 ([anim/](file:///c:/Users/Administrator/Downloads/lv_mpy_examples_v9/anim))
-- **基础路径**: `lv_example_anim_1.py` - 演示线性、平滑、回弹等动画路径。
-- **多重动画**: `lv_example_anim_2.py` - 同一对象执行多个动画（如位置与大小同时改变）。
-- **时间轴**: `lv_example_anim_timeline_1.py` - 像视频剪辑一样精确控制多个对象的动画时序。
+- **路径与缓动**: 演示了线性、正弦、回弹等 10+ 种缓动函数（Easing functions）。
+- **组合动画**: 展示如何让一个物体同时发生位置移动、透明度变化和缩放。
+- **时间轴控制**: `lv_example_anim_timeline_1.py` 提供了一种可视化的方式管理多个动画的启动与持续时间。
 
-### 🎨 样式美化 ([styles/](file:///c:/Users/Administrator/Downloads/lv_mpy_examples_v9/styles))
-- 提供了 14 个示例，深度展示了如何自定义 UI：
-  - 边框、阴影、背景渐变、透明度、圆角、内边距、外边距、文本样式等。
+### 🎨 样式系统 ([styles/](file:///c:/Users/Administrator/Downloads/lv_mpy_examples_v9/styles))
+- 深入浅出地介绍了 LVGL 的层叠样式表思想：
+  - **背景**: 纯色、渐变色、透明度。
+  - **边框与阴影**: 宽度、颜色、扩散范围、偏移量。
+  - **内边距与外边距**: 调整元素间的精确间距。
+  - **文本**: 字体选择、颜色、字间距。
 
 ### 🖱️ 滚动控制 ([scroll/](file:///c:/Users/Administrator/Downloads/lv_mpy_examples_v9/scroll))
-- **自动滚动**: `scroll_1` 演示内容溢出时如何自动出现滚动条。
-- **滚动捕捉 (Snap)**: `scroll_2` 演示如何让滚动停止在特定的对象中心。
-- **嵌套滚动**: `scroll_6` 演示容器内外滚动的嵌套处理。
+- 演示了复杂的滚动行为，包括：
+  - 弹性回弹效果、滚动条显示策略、滚动方向限制以及著名的“磁贴捕捉（Snap）”功能。
 
-### 🖼️ 资源与扩展 ([libs/](file:///c:/Users/Administrator/Downloads/lv_mpy_examples_v9/libs) & [assets/](file:///c:/Users/Administrator/Downloads/lv_mpy_examples_v9/assets))
-- **多媒体**: 支持 BMP, PNG (需要 `lodepng`), GIF 动画及 QR Code 生成。
-- **字体库**: `assets/font/` 目录下包含了多种尺寸的 Montserrat 字体及 SimSun 中文字体支持。
-- **图片资源**: 提供了一系列 PNG 图片（如齿轮、星星、按钮背景）用于美化界面。
+### 🖼️ 扩展功能 ([libs/](file:///c:/Users/Administrator/Downloads/lv_mpy_examples_v9/libs))
+- **第三方库集成**: 
+  - `qrcode`: 动态生成二维码，方便手机扫码交互。
+  - `gif`, `png`, `bmp`: 演示如何集成各种格式的解码器以支持更丰富的视觉资源。
+
+---
+
+## ⌚ 综合案例：智能手表应用 ([smartwatch_app.py](file:///c:/Users/Administrator/Downloads/lv_mpy_examples_v9/smartwatch_app.py))
+
+本项目包含一个功能完整的智能手表原型，它是学习 LVGL 实战的最佳入口。
+
+### 🌟 核心功能
+- **多界面切换**: 采用手势识别系统，左右滑动可在时间、天气、设置页面间无缝切换。
+- **网络同步**:
+  - **NTP 对时**: 自动连接 WiFi 并通过网络校准本地实时时钟。
+  - **实时天气**: 对接知心天气（Seniverse）API，获取气温、天气状况及对应图标。
+- **中文化支持**: 集成了全套中文字库，支持城市名称、日期及天气描述的完美汉化。
+- **个性化设置**: 内置中国主流城市下拉选择框，支持切换后自动同步更新天气和对应时区。
+
+### 📱 界面内容展示
+1.  **时间主屏 (Time Screen)**:
+    - 巨大的数字时钟显示，包含秒针动态更新。
+    - 实时日期与星期显示。
+    - **多时区支持**: 屏幕内上下滑动可切换北京、东京、伦敦、纽约等全球主要城市时间。
+2.  **天气详情页 (Weather Screen)**:
+    - 动态天气图标（晴、阴、雨、霾等）。
+    - 实时温度数值显示。
+    - 城市名称及详细天气文字描述。
+3.  **系统设置页 (Settings Screen)**:
+    - 城市选择下拉菜单：带自定义箭头图标，可选择中国各大城市。
+    - “保存”按钮：具备黑色醒目文字提示，点击后触发全局数据更新。
+
+### 🛠️ 技术亮点
+- **手势防抖优化**: 针对触摸屏灵敏度进行了软件过滤，防止连跳页面。
+- **圆形屏适配**: 所有 UI 元素均针对 GC9A01 圆形边缘进行了避让和圆弧化处理。
+- **资源管理**: 采用高效的二进制图片加载与内存缓存机制，确保在嵌入式设备上运行流畅。
 
 ---
 
