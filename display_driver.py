@@ -64,7 +64,23 @@ def init_touch():
     # Initialize the I2C bus for touch
     i2c = machine.I2C(_I2C_ID, scl=machine.Pin(_I2C_SCL), sda=machine.Pin(_I2C_SDA), freq=400000)
     
-    # Initialize and return the CST816S touch driver
+    # Initialize the CST816S touch driver
     touch = CST816S(i2c, reset_pin=machine.Pin(_TOUCH_RST, machine.Pin.OUT))
     touch.auto_sleep = False
+
+    # Register the touch driver with LVGL
+    def touch_read(indev, data):
+        coords = touch._get_coords()
+        if coords:
+            data.point.x = coords[0]
+            data.point.y = coords[1]
+            data.state = lv.INDEV_STATE.PRESSED
+        else:
+            data.state = lv.INDEV_STATE.RELEASED
+        return False
+
+    indev = lv.indev_create()
+    indev.set_type(lv.INDEV_TYPE.POINTER)
+    indev.set_read_cb(touch_read)
+    
     return touch
