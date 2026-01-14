@@ -12,8 +12,8 @@ from display_driver import init_display, init_touch
 from cst816s import GESTURE_SWIPE_LEFT, GESTURE_SWIPE_RIGHT, GESTURE_SWIPE_UP, GESTURE_SWIPE_DOWN
 
 # ===== 配置信息 (参考 watch_th.py) =====
-SSID = "Prefoco"
-PASSWORD = "18961210318"
+SSID = "xxx"
+PASSWORD = "xxx"
 CITY = "changzhou"
 
 # 中国城市列表 (用于设置页面)
@@ -37,7 +37,7 @@ TIMEZONES = [
 ]
 current_tz_idx = 0
 
-WEATHER_KEY = "S9hoa4Wza9Hcs2uX_" # 知心天气 Key
+WEATHER_KEY = "xxx" # 知心天气 Key
 WEATHER_URL = f"https://api.seniverse.com/v3/weather/now.json?key={WEATHER_KEY}&location={CITY}&language=zh-Hans&unit=c"
 
 # ===== 初始化硬件 =====
@@ -402,7 +402,7 @@ def update_sys_cb(t):
     label_mem.set_text("内存剩余: {} KB".format(mem_free // 1024))
 
 # 创建定时器
-timer_time = lv.timer_create(update_time_cb, 1000, None)
+timer_time = lv.timer_create(update_time_cb, 200, None) # 提高刷新频率到 200ms，防止秒钟跳显
 timer_weather = lv.timer_create(update_weather_cb, 3600000, None) # 每小时更新一次
 timer_sys = lv.timer_create(update_sys_cb, 2000, None)
 
