@@ -6,7 +6,7 @@ import display_driver
 def sw_event_cb(e,panel):
 
     code = e.get_code()
-    sw = lv.switch()
+    sw = get_target_obj()
 
     if code == lv.EVENT.VALUE_CHANGED:
 
