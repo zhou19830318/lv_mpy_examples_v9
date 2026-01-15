@@ -1,11 +1,11 @@
 # config.py - 智能手表应用配置文件
 
 # ===== WiFi 配置 =====
-WIFI_SSID = "Prefoco"
-WIFI_PASSWORD = "18961210318"
+WIFI_SSID = "xxx"
+WIFI_PASSWORD = "xxx"
 
 # ===== 天气服务配置 (知心天气) =====
-WEATHER_KEY = "S9hoa4Wza9Hcs2uX_"
+WEATHER_KEY = "xxx"
 DEFAULT_CITY = "changzhou"
 WEATHER_API_URL = "https://api.seniverse.com/v3/weather/now.json"
 
