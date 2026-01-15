@@ -33,3 +33,4 @@ DEFAULT_TZ_INDEX = 0
 # ===== API 接口信息 =====
 # 如果有其它 API (如豆包、汇率等)，可以在此添加
 EXCHANGE_RATE_API = "https://api.exchangerate-api.com/v4/latest/USD"
+HUILV_API_KEY = "xxx" #汇率的API-KEY
