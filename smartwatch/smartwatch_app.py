@@ -34,6 +34,7 @@ TIMEZONES = config.TIMEZONES
 current_tz_idx = config.DEFAULT_TZ_INDEX
 WEATHER_KEY = config.WEATHER_KEY
 WEATHER_URL = f"{config.WEATHER_API_URL}?key={WEATHER_KEY}&location={CITY}&language=zh-Hans&unit=c"
+huilv_aip_key = config.HUILV_API_KEY
 
 # ===== 初始化显示与输入 =====
 lv.init()
@@ -558,7 +559,7 @@ def query_exchange_event_cb(e):
     label_exc_status.set_text("正在查询...")
     
     url = "https://apis.tianapi.com/fxrate/index"
-    api_key = "741954f412abf7b7a1dbbcc35ef2f91b"
+    api_key = huilv_aip_key
     # POST 参数使用 x-www-form-urlencoded 格式
     params = "key={}&money=1&fromcoin={}&tocoin={}".format(api_key, from_coin, to_coin)
     headers = {'Content-type': 'application/x-www-form-urlencoded'}
@@ -1336,4 +1337,5 @@ while True:
             
     except MemoryError:
         print("CRITICAL: Memory low, performing emergency GC")
+
         gc.collect()
